@@ -160,12 +160,6 @@ void wasm::Linker::ConstructJob(Compilation &C, const JobAction &JA,
 
   // When optimizing, if wasm-opt is available, run it.
   std::string WasmOptPath;
-  if (Args.getLastArg(options::OPT_O_Group)) {
-    WasmOptPath = ToolChain.GetProgramPath("wasm-opt");
-    if (WasmOptPath == "wasm-opt") {
-      WasmOptPath = {};
-    }
-  }
 
   if (!WasmOptPath.empty()) {
     CmdArgs.push_back("--keep-section=target_features");
