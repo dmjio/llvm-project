@@ -2425,8 +2425,7 @@ function(llvm_setup_rpath name)
     # FIXME: update this when there is better solution.
     set(_install_rpath "${LLVM_LIBRARY_OUTPUT_INTDIR}" "${CMAKE_INSTALL_PREFIX}/lib${LLVM_LIBDIR_SUFFIX}" ${extra_libdir})
   elseif(UNIX)
-    set(_build_rpath "\$ORIGIN/../lib${LLVM_LIBDIR_SUFFIX}" ${extra_libdir})
-    set(_install_rpath "\$ORIGIN/../lib${LLVM_LIBDIR_SUFFIX}")
+    set(_install_rpath "\$ORIGIN/../lib${LLVM_LIBDIR_SUFFIX}" ${extra_libdir})
     if(${CMAKE_SYSTEM_NAME} MATCHES "(FreeBSD|DragonFly)")
       set_property(TARGET ${name} APPEND_STRING PROPERTY
                    LINK_FLAGS " -Wl,-z,origin ")
@@ -2440,16 +2439,9 @@ function(llvm_setup_rpath name)
     return()
   endif()
 
-  # Enable BUILD_WITH_INSTALL_RPATH unless CMAKE_BUILD_RPATH is set and not
-  # building for macOS or AIX, as those platforms seemingly require it.
-  # On AIX, the tool chain doesn't support modifying rpaths/libpaths for XCOFF
-  # on install at the moment, so BUILD_WITH_INSTALL_RPATH is required.
+  # Enable BUILD_WITH_INSTALL_RPATH unless CMAKE_BUILD_RPATH is set.
   if("${CMAKE_BUILD_RPATH}" STREQUAL "")
-    if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin|AIX")
-      set_property(TARGET ${name} PROPERTY BUILD_WITH_INSTALL_RPATH ON)
-    else()
-      set_property(TARGET ${name} APPEND PROPERTY BUILD_RPATH "${_build_rpath}")
-    endif()
+    set_property(TARGET ${name} PROPERTY BUILD_WITH_INSTALL_RPATH ON)
   endif()
 
   set_target_properties(${name} PROPERTIES
