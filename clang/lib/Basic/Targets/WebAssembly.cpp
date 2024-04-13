@@ -234,10 +234,12 @@ bool WebAssemblyTargetInfo::handleTargetFeatures(
     }
     if (Feature == "+multivalue") {
       HasMultivalue = true;
+      setABI("experimental-mv");
       continue;
     }
     if (Feature == "-multivalue") {
       HasMultivalue = false;
+      setABI("mvp");
       continue;
     }
     if (Feature == "+tail-call") {

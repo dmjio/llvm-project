@@ -184,7 +184,7 @@ bool WebAssembly::canLowerMultivalueReturn(
     const WebAssemblySubtarget *Subtarget) {
   const auto &TM = static_cast<const WebAssemblyTargetMachine &>(
       Subtarget->getTargetLowering()->getTargetMachine());
-  return Subtarget->hasMultivalue() && TM.usesMultivalueABI();
+  return Subtarget->hasMultivalue();
 }
 
 bool WebAssembly::canLowerReturn(size_t ResultSize,
